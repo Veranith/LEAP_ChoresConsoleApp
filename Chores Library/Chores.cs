@@ -23,7 +23,12 @@ namespace ChoresLibrary
             addExampleChores();
             updateChore(1, "Wash Laundry", "Arthur Dent");
             deleteChore(2);
-            
+            var chores = getChores();
+
+            foreach (Chore task in chores)
+            {
+                Console.WriteLine($"Id: {task.choreId}\tName: {task.choreName}\tAssignment: {task.choreAssignment}");
+            }
 
         }
 
@@ -49,9 +54,23 @@ namespace ChoresLibrary
             return choreDb.deleteFromTable(choreDb.tableName, id);
         }
 
-        private void getChores()
+        private List<Chore> getChores()
         {
-            throw new NotImplementedException();
+            return choreDb.readQuery();
+        }
+    }
+
+    public class Chore
+    {
+        public int choreId { get; set; }
+        public string choreName { get; set; }
+        public string choreAssignment { get; set; }
+
+        public Chore(int id, string name, string assignment)
+        {
+            choreId = id;
+            choreName = name;
+            choreAssignment = assignment;
         }
     }
 }

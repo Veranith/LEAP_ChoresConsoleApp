@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using ChoresLibrary;
 
 namespace ChoresLibrary
 {
@@ -100,9 +102,27 @@ namespace ChoresLibrary
             return executeNonQuery(sql.ToString());
         }
 
-        public void readQuery(string query)
+        public List<Chore> readQuery()
         {
-            throw new NotImplementedException();
+            string sql = $"USE {databaseName}; SELECT ChoreId, ChoreName, ChoreAssignment FROM {tableName}; ";
+
+            var results = new List<Chore>();        
+                            
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            results.Add(new Chore(reader.GetInt32(0), reader.GetString(1), (reader.IsDBNull(2) ? "" : reader.GetString(2))));
+                        }
+                    }
+                }
+            }
+            return results;
         }
 
         private int executeNonQuery(string query)
