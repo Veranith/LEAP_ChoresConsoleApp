@@ -1,4 +1,5 @@
 ﻿using System;
+using ChoresLibrary;
 
 namespace ChoresApp
 {
@@ -6,7 +7,8 @@ namespace ChoresApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var choreApp = new Chores();
+            choreApp.run();
         }
     }
 }
