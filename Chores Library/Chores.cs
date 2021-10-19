@@ -21,11 +21,14 @@ namespace ChoresLibrary
             choreDb.createDatabase("ChoresDB");
             choreDb.createTable("Chores");
             addExampleChores();
+            updateChore(1, "Wash Laundry", "Arthur Dent");
+
+            
         }
 
-        private void addChore(string Name, string Assignment)
+        private int addChore(string Name, string Assignment)
         {
-            choreDb.insertTable(choreDb.tableName, Name, Assignment);
+            return choreDb.insertTable(choreDb.tableName, Name, Assignment);
         }
 
         private void addExampleChores()
@@ -35,9 +38,9 @@ namespace ChoresLibrary
             addChore("Dust", null);
         }
 
-        private void updateChore()
+        private int updateChore(int id, string choreName, string choreAssignment)
         {
-            throw new NotImplementedException();
+            return choreDb.updateTable(choreDb.tableName, id, choreName, choreAssignment);
         }
 
         private void deleteChore()

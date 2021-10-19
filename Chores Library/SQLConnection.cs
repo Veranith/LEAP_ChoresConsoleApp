@@ -31,7 +31,7 @@ namespace ChoresLibrary
         {
             databaseName = dbName;
             String sql = $"DROP DATABASE IF EXISTS [{databaseName}]; CREATE DATABASE [{databaseName}];";
-            Console.WriteLine("Query: " + sql);
+            
             executeNonQuery(sql);
         }
 
@@ -48,7 +48,7 @@ namespace ChoresLibrary
             executeNonQuery(sql);
         }
 
-        public void insertTable(string table, string choreName, string choreAssignment)
+        public int insertTable(string table, string choreName, string choreAssignment)
         {
             var sql = new StringBuilder();
             sql.Append($"USE {databaseName};");
@@ -63,13 +63,31 @@ namespace ChoresLibrary
                 sql.Append( $"(ChoreName, ChoreAssignment) " +
                             $"VALUES ('{choreName}', '{choreAssignment}');");
             }
-            Console.WriteLine(sql.ToString());
-            executeNonQuery(sql.ToString());
+            
+            return executeNonQuery (sql.ToString());
         }
 
-        public void updateTable(string Table)
+        public int updateTable(string table, int id, string choreName, string choreAssignment)
         {
-            throw new NotImplementedException();
+            var sql = new StringBuilder();
+            sql.Append($"USE {databaseName};");
+            sql.Append($"UPDATE {table} ");
+            
+            if (choreAssignment is null)
+            {
+                sql.Append($"SET ChoreName = '{choreName}' ");
+            }
+            else if (choreName is null)
+            {
+                sql.Append($"SET ChoreAssignment = '{choreAssignment}' ");
+            }
+            else
+            {
+                sql.Append($"SET ChoreName = '{choreName}', ChoreAssignment = '{choreAssignment}' ");
+            }
+            sql.Append($"WHERE ChoreId = {id};");
+            
+            return executeNonQuery(sql.ToString());
         }
 
         public void readQuery(string query)
@@ -77,7 +95,7 @@ namespace ChoresLibrary
             throw new NotImplementedException();
         }
 
-        private void executeNonQuery(string query)
+        private int executeNonQuery(string query)
         {
             Console.Write("Connecting to SQL Server .... ");
 
@@ -88,7 +106,7 @@ namespace ChoresLibrary
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.ExecuteNonQuery();
+                    return command.ExecuteNonQuery();
                 }
             }
         }
