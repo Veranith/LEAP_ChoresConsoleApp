@@ -90,6 +90,16 @@ namespace ChoresLibrary
             return executeNonQuery(sql.ToString());
         }
 
+        public int deleteFromTable(string table, int id)
+        {
+            var sql = new StringBuilder();
+            sql.Append($"USE {databaseName};");
+            sql.Append($"DELETE FROM {table} ");
+            sql.Append($"WHERE ChoreId = {id};");
+
+            return executeNonQuery(sql.ToString());
+        }
+
         public void readQuery(string query)
         {
             throw new NotImplementedException();
