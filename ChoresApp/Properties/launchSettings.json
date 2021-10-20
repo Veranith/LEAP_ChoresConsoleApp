@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ChoresApp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DBPassword": "password123",
+        "DataSource": "localhost\\SQLPlayground",
+        "DBUser": "app"
+      }
+    }
+  }
+}

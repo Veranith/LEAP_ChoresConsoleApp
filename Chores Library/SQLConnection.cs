@@ -21,9 +21,13 @@ namespace ChoresLibrary
         {
             
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = "localhost\\SQLPlayground";
-            builder.UserID = "app";
-            builder.Password = "password123";
+            // Left for ease of reviewing code if needed
+            //builder.DataSource = "DBInstance";  
+            //builder.UserID = "UserID";
+            //builder.Password = "DB Passowrd";
+            builder.DataSource = $"{Environment.GetEnvironmentVariable("DataSource")}";
+            builder.UserID = $"{Environment.GetEnvironmentVariable("DBUser")}";
+            builder.Password = $"{Environment.GetEnvironmentVariable("DBPassword")}";
             builder.InitialCatalog = "master";
 
             connectionString = builder.ConnectionString;
